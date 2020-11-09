@@ -4,6 +4,7 @@ import plantas.*
 import pachamama.*
 
 program huertaDeToni {
+	game.title("la huerta de Toni")
 	game.width(15)
 	game.height(15)
 	
@@ -31,5 +32,35 @@ program huertaDeToni {
 	 */
 	(1..13).forEach { x => game.addVisualIn(new Maiz(), game.at(x, 5)) }
 		
+	keyboard.up().onPressDo ({toni.moveteArriba()})	
+	keyboard.down().onPressDo ({toni.moveteAbajo()})	
+	keyboard.left().onPressDo ({toni.moveteIzquierda()})	
+	keyboard.right().onPressDo ({toni.moveteDerecha()})
+	
+	 //comandos para regar, cosechar, etc
+	keyboard.m().onPressDo ({ 
+		var maiz = new Maiz(position = toni.position())
+		toni.sembrar(maiz)
+		game.addVisual(maiz)
+	})
+	keyboard.t().onPressDo ({ 
+		var maiz = new Trigo(position = toni.position())
+		toni.sembrar(maiz)
+		game.addVisual(maiz)
+	})
+	keyboard.o().onPressDo ({ 
+		var maiz = new Tomaco(position = toni.position())
+		toni.sembrar(maiz)
+		game.addVisual(maiz)
+	})
+	keyboard.d().onPressDo({ //dice la cantidad de dinero que tiene
+		game.say(toni, "dinero obtenido: " +  toni.dineroAcumulado())
+	})
+	
+	keyboard.a().onPressDo({ 
+		toni.regarLasPlantas()
+	})
+	
+	
 	game.start()
 }
