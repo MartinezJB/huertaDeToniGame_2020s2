@@ -18,7 +18,7 @@ program huertaDeToni {
 	keyboard.left().onPressDo ({toni.moveteIzquierda()})	
 	keyboard.right().onPressDo ({toni.moveteDerecha()})
 	
-	 //comandos para regar, cosechar, etc
+
 	keyboard.m().onPressDo ({ //siembra maiz
 		var maiz = new Maiz(position = toni.position())
 		toni.sembrar(maiz)
@@ -35,7 +35,7 @@ program huertaDeToni {
 		game.addVisual(maiz)
 	})
 	keyboard.space().onPressDo({ //dice la cantidad de dinero que tiene	
-		game.say(toni, "eh recaudado " +  toni.monedero()+" monedas y todavia me faltan " + "plantas por vender")
+		game.say(toni, "eh recaudado " +  toni.monedero()+" monedas y todavia me faltan " +toni.plantasAVender().size()+ "plantas por vender")
 	})
 	
 	keyboard.a().onPressDo({ //riega todas las plantas
@@ -55,6 +55,7 @@ program huertaDeToni {
 	game.whenCollideDo(toni, { planta =>  
 		keyboard.c().onPressDo({ //cosecha una planta (tiene bugs...solucionarlo)
 			toni.cosecharPlanta(planta)
+			//game.removeVisual(planta)	
 		})	
 	})
 	

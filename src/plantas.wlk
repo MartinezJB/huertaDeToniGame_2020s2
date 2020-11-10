@@ -6,10 +6,12 @@ class Planta{
 	
 	method valorPlanta()
 	method estaListaCosecha()
+	method libreDeGluten()
 }
 
 class Maiz inherits Planta {
 	var esBebe = true
+	override method libreDeGluten(){ return true } 
 	
 	method image() {
 		if(esBebe){
@@ -30,6 +32,7 @@ class Maiz inherits Planta {
 
 class Trigo inherits Planta {
 	var evolucion = 0
+	override method libreDeGluten(){ return false }
 	
 	method image() {
 		if(evolucion==0){ return "trigo_0.png" }
@@ -53,6 +56,7 @@ class Trigo inherits Planta {
 
 class Tomaco inherits Planta {
 	
+	override method libreDeGluten(){ return true }
 	method image() {
 		return "tomaco_ok.png"
 	}

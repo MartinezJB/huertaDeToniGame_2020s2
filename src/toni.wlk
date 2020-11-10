@@ -38,7 +38,17 @@ object toni {
 		plantasAVender.remove(planta)
 		monedero += planta.valorPlanta()
 	}
+	
 	method venderCosecha(){ plantasAVender.map({ plant=>self.venderPlanta(plant)})}
 	method totalMonedero(){ return monedero }
 
+	method paraCuantosDiasLeAlcanza(){ return self.sumaValorPlantasAVenderMonerdero() % 200  }
+
+	method valorTotalPlantasAVender(){ return plantasAVender.sum({plant=>plant.valorPlanta() })}
+	
+	method sumaValorPlantasAVenderMonerdero(){ return monedero +  self.valorTotalPlantasAVender() } 
+	
+	method cuantoHayParaCeliacos(){ return plantasAVender.filter( {plant=>plant.libreDeGluten() } ) }
+	
+	method convieneRegar(){ plantasSembradas.filter( {plant=> not plant.estaListaCosecha() }) }
 }
