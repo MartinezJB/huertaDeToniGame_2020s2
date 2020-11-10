@@ -3,6 +3,9 @@ import wollok.game.*
 class Planta{
 	var property position = game.at(3, 3)
 	method regar()
+	
+	method valorPlanta()
+	method estaListaCosecha()
 }
 
 class Maiz inherits Planta {
@@ -20,6 +23,9 @@ class Maiz inherits Planta {
 			esBebe = false //o sea que pasa a ser adulta
 		}
 	}
+	override method estaListaCosecha(){ return !esBebe }
+	override method valorPlanta() { return 150 }
+	
 }
 
 class Trigo inherits Planta {
@@ -36,7 +42,14 @@ class Trigo inherits Planta {
 		if(evolucion >= 3){ evolucion = 0 }
 		else { evolucion += 1}
 	}
+	override method estaListaCosecha(){ return evolucion >= 2 } 
+	
+	override method valorPlanta() {
+	if(evolucion == 2 ){return 100 }
+	else{ return 200}
+	}
 }
+
 
 class Tomaco inherits Planta {
 	
@@ -44,4 +57,6 @@ class Tomaco inherits Planta {
 		return "tomaco_ok.png"
 	}
 	override method regar() {}
+	override method estaListaCosecha(){ return true }
+	override method valorPlanta(){ return 80 }
 }

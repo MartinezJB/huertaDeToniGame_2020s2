@@ -7,29 +7,10 @@ program huertaDeToni {
 	game.title("la huerta de Toni")
 	game.width(15)
 	game.height(15)
-	
-	// Configuramos una imagen de fondo, que se repite para cada celda del tablero.
 	game.ground("tierra.png")
-	
-	// Agregamos al amigo Toni.
 	game.addVisual(toni)
-	
-	/*
-	 * Acá usamos addVisualIn en vez de addVisual, y por esto 
-	 * no es necesario que la pachamama conozca su position.
-	 */
 	game.addVisualIn(pachamama, game.at(0, 13));
 	
-	/* 
-	 * Agregamos una fila de maices. Ojo al regar, que Toni no va a conocer
-	 * estas plantas.
-	 * 
-	 * En este ejemplo también usamos addVisualIn, por lo tanto
-	 * el Maiz solo define la imagen.
-	 * 
-	 * De yapa, mostramos cómo agregar varios objetos de una utilizando
-	 * un rango (1..13), que equivale a la lista [1, 2, 3, ..., 13].
-	 */
 	(1..13).forEach { x => game.addVisualIn(new Maiz(), game.at(x, 5)) }
 		
 	keyboard.up().onPressDo ({toni.moveteArriba()})	
@@ -38,29 +19,48 @@ program huertaDeToni {
 	keyboard.right().onPressDo ({toni.moveteDerecha()})
 	
 	 //comandos para regar, cosechar, etc
-	keyboard.m().onPressDo ({ 
+	keyboard.m().onPressDo ({ //siembra maiz
 		var maiz = new Maiz(position = toni.position())
 		toni.sembrar(maiz)
 		game.addVisual(maiz)
 	})
-	keyboard.t().onPressDo ({ 
+	keyboard.t().onPressDo ({ //siembra trigo
 		var maiz = new Trigo(position = toni.position())
 		toni.sembrar(maiz)
 		game.addVisual(maiz)
 	})
-	keyboard.o().onPressDo ({ 
+	keyboard.o().onPressDo ({ //siembra tomaco
 		var maiz = new Tomaco(position = toni.position())
 		toni.sembrar(maiz)
 		game.addVisual(maiz)
 	})
-	keyboard.d().onPressDo({ //dice la cantidad de dinero que tiene
-		game.say(toni, "dinero obtenido: " +  toni.dineroAcumulado())
+	keyboard.space().onPressDo({ //dice la cantidad de dinero que tiene	
+		game.say(toni, "eh recaudado " +  toni.monedero()+" monedas y todavia me faltan " + "plantas por vender")
 	})
 	
-	keyboard.a().onPressDo({ 
+	keyboard.a().onPressDo({ //riega todas las plantas
 		toni.regarLasPlantas()
 	})
 	
+	game.whenCollideDo(toni, { planta =>  
+		keyboard.r().onPressDo({ //riega una planta (tiene bugs...solucionarlo)
+			planta.regar()
+		})	
+	})
+	
+	keyboard.x().onPressDo({ //cosecha todas las plantas
+		toni.cosecharTodo()
+	})
+	
+	game.whenCollideDo(toni, { planta =>  
+		keyboard.c().onPressDo({ //cosecha una planta (tiene bugs...solucionarlo)
+			toni.cosecharPlanta(planta)
+		})	
+	})
+	
+	keyboard.v().onPressDo({ // Vende toda la cosecha actual
+		toni.venderCosecha()
+	})
 	
 	game.start()
 }

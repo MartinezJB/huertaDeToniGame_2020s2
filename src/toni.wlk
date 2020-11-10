@@ -3,8 +3,9 @@ import wollok.game.*
 object toni {
 	const property image = "toni.png"
 	var property position = game.at(3, 3)
-	var property dineroAcumulado = 0
+	var property monedero = 0
 	const property plantasSembradas = []
+	const property plantasAVender = []
 	
 	method moveteDerecha(){
 		self.position(self.position().right(1))
@@ -21,10 +22,23 @@ object toni {
 	method regarLasPlantas() {
 		plantasSembradas.forEach({each=>each.regar()})
 	}
-	method vender() {
-		
+	
+	method plantasListasParaCosechar(){ return plantasSembradas.filter({plant=>plant.estaListaCosecha()}) }
+	
+	method cosecharPlanta(planta){
+		if(planta.estaListaCosecha()){
+			plantasSembradas.remove(planta)
+			plantasAVender.add(planta)
+		} 
+	} 
+	 
+	method cosecharTodo(){ self.plantasListasParaCosechar().map({plant=>self.cosecharPlanta(plant)}) }
+	
+	method venderPlanta(planta){ 
+		plantasAVender.remove(planta)
+		monedero += planta.valorPlanta()
 	}
-	method consultarAToni() {
-		
-	}
+	method venderCosecha(){ plantasAVender.map({ plant=>self.venderPlanta(plant)})}
+	method totalMonedero(){ return monedero }
+
 }
