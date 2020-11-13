@@ -6,6 +6,7 @@ object toni {
 	var property monedero = 0
 	const property plantasSembradas = []
 	const property plantasAVender = []
+	method esPlanta() {return false}
 	
 	method moveteDerecha(){
 		self.position(self.position().right(1))
@@ -39,7 +40,7 @@ object toni {
 		monedero += planta.valorPlanta()
 	}
 	
-	method venderCosecha(){ plantasAVender.map({ plant=>self.venderPlanta(plant)})}
+	method venderCosecha(){ plantasAVender.forEach({ plant=>self.venderPlanta(plant)})}
 	method totalMonedero(){ return monedero }
 
 	method paraCuantosDiasLeAlcanza(){ return self.sumaValorPlantasAVenderMonerdero() % 200  }
@@ -51,4 +52,6 @@ object toni {
 	method cuantoHayParaCeliacos(){ return plantasAVender.filter( {plant=>plant.libreDeGluten() } ) }
 	
 	method convieneRegar(){ plantasSembradas.filter( {plant=> not plant.estaListaCosecha() }) }
+	
+	method hayPlanta() {}
 }

@@ -7,6 +7,7 @@ class Planta{
 	method valorPlanta()
 	method estaListaCosecha()
 	method libreDeGluten()
+	method esPlanta() {return true} //esto deberia ser un metodo para todos las clases y objetos que aparezcan en la trama para mantener el polimorfismo, en este caso: plantas y toni
 }
 
 class Maiz inherits Planta {

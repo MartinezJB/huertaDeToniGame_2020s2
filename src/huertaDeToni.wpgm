@@ -42,22 +42,28 @@ program huertaDeToni {
 		toni.regarLasPlantas()
 	})
 	
-	game.whenCollideDo(toni, { planta =>  
-		keyboard.r().onPressDo({ //riega una planta (tiene bugs...solucionarlo)
-			planta.regar()
-		})	
+	
+	keyboard.r().onPressDo({ //riega una planta
+		if(game.colliders(toni).any({each => each.esPlanta()})){
+			game.colliders(toni).find({each => each.esPlanta()}).regar()
+		}
+			
+	
 	})
 	
 	keyboard.x().onPressDo({ //cosecha todas las plantas
 		toni.cosecharTodo()
 	})
 	
-	game.whenCollideDo(toni, { planta =>  
-		keyboard.c().onPressDo({ //cosecha una planta (tiene bugs...solucionarlo)
-			toni.cosecharPlanta(planta)
-			//game.removeVisual(planta)	
-		})	
-	})
+	 
+	keyboard.c().onPressDo({ //cosecha una planta
+		if(game.colliders(toni).any({each => each.esPlanta() and each.estaListaCosecha()})){
+			const planti = game.colliders(toni).find({each => each.esPlanta()})
+			toni.cosecharPlanta(planti)
+			game.removeVisual(planti)
+		}
+	})	
+	
 	
 	keyboard.v().onPressDo({ // Vende toda la cosecha actual
 		toni.venderCosecha()
